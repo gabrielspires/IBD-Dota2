@@ -2,7 +2,7 @@
 -- Author:        Gabriel
 -- Caption:       New Model
 -- Project:       Name of the project
--- Changed:       2019-06-22 17:24
+-- Changed:       2019-06-24 16:18
 -- Created:       2019-06-20 17:57
 PRAGMA foreign_keys = OFF;
 
@@ -33,6 +33,12 @@ CREATE TABLE "order_types"(
 CREATE TABLE "game_mode"(
   "id" INTEGER PRIMARY KEY NOT NULL,
   "name" VARCHAR(45) NOT NULL
+);
+CREATE TABLE "heroes"(
+  "hero_id" INTEGER PRIMARY KEY NOT NULL,
+  "localized_name" VARCHAR(45),
+  "primary_attr" VARCHAR(45),
+  "attack_type" VARCHAR(45)
 );
 CREATE TABLE "match"(
   "match_id" INTEGER PRIMARY KEY NOT NULL,
@@ -82,9 +88,13 @@ CREATE TABLE "player"(
   PRIMARY KEY("player_slot","player_match_id"),
   CONSTRAINT "player_match_id"
     FOREIGN KEY("player_match_id")
-    REFERENCES "match"("match_id")
+    REFERENCES "match"("match_id"),
+  CONSTRAINT "hero_id"
+    FOREIGN KEY("hero_id")
+    REFERENCES "heroes"("hero_id")
 );
 CREATE INDEX "player.player_match_id_idx" ON "player" ("player_match_id");
+CREATE INDEX "player.hero_id_idx" ON "player" ("hero_id");
 CREATE TABLE "chat"(
   "chat_match_id" INTEGER NOT NULL,
   "chat_id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
