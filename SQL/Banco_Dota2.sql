@@ -2,7 +2,7 @@
 -- Author:        Gabriel
 -- Caption:       New Model
 -- Project:       Name of the project
--- Changed:       2019-06-24 16:18
+-- Changed:       2019-06-28 19:53
 -- Created:       2019-06-20 17:57
 PRAGMA foreign_keys = OFF;
 
@@ -36,6 +36,7 @@ CREATE TABLE "game_mode"(
 );
 CREATE TABLE "heroes"(
   "hero_id" INTEGER PRIMARY KEY NOT NULL,
+  "name" VARCHAR(45),
   "localized_name" VARCHAR(45),
   "primary_attr" VARCHAR(45),
   "attack_type" VARCHAR(45)
@@ -152,6 +153,20 @@ CREATE TABLE "lane_pos"(
     REFERENCES "player"("player_slot")
 );
 CREATE INDEX "lane_pos.pos_account_id_idx" ON "lane_pos" ("pos_player_slot");
+CREATE TABLE "kills_log"(
+  "kills_log_match_id" INTEGER NOT NULL,
+  "kills_log_player_slot" INTEGER NOT NULL,
+  "kills_log_id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  "time" INTEGER NOT NULL,
+  "key" VARCHAR(45) NOT NULL,
+  CONSTRAINT "kills_log_match_id"
+    FOREIGN KEY("kills_log_match_id")
+    REFERENCES "player"("player_match_id"),
+  CONSTRAINT "kills_log_player_slot"
+    FOREIGN KEY("kills_log_player_slot")
+    REFERENCES "player"("player_slot")
+);
+CREATE INDEX "kills_log.kills_log_player_slot_idx" ON "kills_log" ("kills_log_player_slot");
 CREATE TABLE "healing"(
   "healing_match_id" INTEGER NOT NULL,
   "healing_player_slot" INTEGER NOT NULL,
